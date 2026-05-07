@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory Construction Profile</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <main>
+    <section class="screen intro-screen" id="introScreen">
+      <div class="vellum-bg" aria-hidden="true">
+        <div class="vellum-layer v1"></div>
+        <div class="vellum-layer v2"></div>
+        <div class="vellum-layer v3"></div>
+        <div class="vellum-layer v4"></div>
+        <div class="vellum-layer v5"></div>
+      </div>
+
+      <h1 id="animatedTitle">THE CONSTRUCTION OF MEMORY</h1>
+
+      <div class="intro-bottom" id="startWrap">
+        <button class="start-button" type="button" onclick="startQuiz()">Start</button>
+      </div>
+    </section>
+
+    <section class="screen quiz-screen" id="quizScreen">
+      <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+
+      <div class="quiz-nav">
+        <button class="quiz-back" type="button" onclick="showIntro()">&lt;</button>
+      </div>
+
+      <div class="quiz-content">
+        <div class="all-questions" id="allQuestions"></div>
+
+        <div class="submit-wrap">
+          <button class="submit-button" id="submitButton" type="button" onclick="submitQuiz()" disabled>
+            See Result
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen result-screen" id="resultScreen">
+      <div class="result-header">
+        <h2 class="result-title">Memory Construction Profile</h2>
+        <p class="result-text" id="resultText"></p>
+      </div>
+
+      <div class="continuum-wrap">
+        <div class="continuum-labels">
+          <span>Western-Oriented</span>
+          <span>Eastern-Oriented</span>
+        </div>
+        <div class="continuum-track">
+          <div class="continuum-fill" id="continuumFill"></div>
+          <div class="continuum-dot" id="continuumDot"></div>
+          <div class="continuum-tick tick-25"></div>
+          <div class="continuum-tick tick-50"></div>
+          <div class="continuum-tick tick-75"></div>
+        </div>
+        <div class="continuum-key">
+          <span>focal · self · specific · emotional · first-person · visual</span>
+          <span>contextual · social · general · less emotional · third-person · structural</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="summary-grid" id="summaryGrid"></div>
+        <div class="result-actions">
+          <button class="reset" type="button" onclick="restartQuiz()">Start Again</button>
+          <button class="back-button" type="button" onclick="showIntro()">Back to Intro</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const title = document.getElementById("animatedTitle");
+    const startWrap = document.getElementById("startWrap");
+
+    const originalText = title.textContent;
+    title.innerHTML = "";
+
+    [...originalText].forEach((char) => {
+      const span = document.createElement("span");
+      span.textContent = char === " " ? "\u00A0" : char;
+      span.classList.add("title-letter");
+      title.appendChild(span);
+    });
+
+    const letters = [...document.querySelectorAll(".title-letter")];
+
+    // All letters visible from the start
+    letters.forEach(l => { l.style.opacity = "1"; });
+
+    // Show start button after 1.5s
+    setTimeout(() => {
+      startWrap.classList.add("visible");
+    }, 1500);
+
+    // Sync state: freeze new fades for 2.5s after each all-visible moment
+    let syncFrozen = true;
+    setTimeout(() => { syncFrozen = false; }, 1500);
+
+    function syncAllVisible() {
+      syncFrozen = true;
+      letters.forEach(l => { l.style.opacity = "1"; });
+      setTimeout(() => { syncFrozen = false; }, 2500);
+    }
+
+    // All visible again at every 8s
+    setInterval(syncAllVisible, 8000);
+
+    function scheduleFade(letter) {
+      const delay = Math.random() * 4000 + 1500;
+      setTimeout(() => {
+        if (syncFrozen) {
+          scheduleFade(letter);
+          return;
+        }
+        letter.style.opacity = "0";
+        const hideDuration = Math.random() * 2000 + 1000;
+        setTimeout(() => {
+          letter.style.opacity = "1";
+          scheduleFade(letter);
+        }, hideDuration);
+      }, delay);
+    }
+
+    // Begin fading after the first 1.5s freeze
+    setTimeout(() => {
+      letters.forEach(letter => scheduleFade(letter));
+    }, 1500);
+
+    const questions = [
+      {
+        section: "Attention / Encoding",
+        question: "You walk out of a subway station into a crowded block you have never been to before. Later, what part of that moment feels easiest to picture?",
+        axis: "Focal ↔ Contextual",
+        options: [
+          { text: "One person, sign, or object that stood out immediately", score: -1, dimension: "attention", insight: "Focal encoding — your attention locks onto a single anchor point rather than taking in the broader scene." },
+          { text: "A few noticeable details, but mostly around the main thing I focused on", score: -0.5, dimension: "attention", insight: "Moderately focal — you encode a clear center of attention with limited peripheral detail." },
+          { text: "The general layout, movement, and atmosphere of the street", score: 0.5, dimension: "attention", insight: "Moderately contextual — you absorb atmosphere and spatial flow over any specific element." },
+          { text: "How people, buildings, sounds, and movement fit together as a whole", score: 1, dimension: "attention", insight: "Contextual encoding — you take in the full relational scene rather than locking onto any single part." }
+        ]
+      },
+      {
+        section: "Attention / Encoding",
+        question: "After leaving a friend's apartment for the first time, what would you most likely remember the next day?",
+        axis: "Object ↔ Field",
+        options: [
+          { text: "A specific object, like a chair, poster, lamp, or table", score: -1, dimension: "attention", insight: "Object-anchored memory — your attention latched onto a single concrete thing as the entry point to the space." },
+          { text: "The main area where I spent the most time", score: -0.4, dimension: "attention", insight: "Space-based focus — the primary zone of activity frames the memory rather than a specific object or the whole environment." },
+          { text: "The mood of the space and how the rooms connected", score: 0.4, dimension: "attention", insight: "Field memory — atmosphere and spatial flow outlast the specific details, pointing to contextual encoding." },
+          { text: "How the space shaped the way people moved and interacted", score: 1, dimension: "attention", insight: "Relational field — you encoded how the environment structured behavior, not just what was in it." }
+        ]
+      },
+      {
+        section: "Storage / Meaning + Self",
+        question: "You think back to a group dinner where something slightly awkward happened. What becomes the center of the memory?",
+        axis: "Self ↔ Social",
+        options: [
+          { text: "How I reacted and how I felt in that moment", score: -1, dimension: "self", insight: "Self-focused encoding — the memory centers on your inner experience; the external event exists mainly as context for your reaction." },
+          { text: "What I said or did, along with a few details around me", score: -0.45, dimension: "self", insight: "Self-referential with situational awareness — your actions anchor the scene, with the surroundings playing a supporting role." },
+          { text: "How the mood changed between everyone at the table", score: 0.45, dimension: "self", insight: "Socially attuned — you tracked the group's collective emotional shift rather than centering on your own reaction." },
+          { text: "The roles people took on and how the situation affected the group", score: 1, dimension: "self", insight: "Socially analytical — you encoded the dynamics and structure of the group, stepping back from personal experience entirely." }
+        ]
+      },
+      {
+        section: "Storage / Meaning + Self",
+        question: "When an old school memory comes back to you, what form does it usually take?",
+        axis: "Specific ↔ General",
+        options: [
+          { text: "A clear moment, almost like a small scene", score: -1, dimension: "recall", insight: "Episodic memory — a distinct moment is preserved in concrete, scene-like detail rather than general impression." },
+          { text: "A few concrete details, but not the whole situation", score: -0.4, dimension: "recall", insight: "Selective episodic — fragments remain vivid while the broader context fades; memory is partial but specific." },
+          { text: "A general feeling of what that time was like", score: 0.4, dimension: "recall", insight: "Impressionistic memory — a felt sense of the era replaces specific events, leaning toward semantic over episodic storage." },
+          { text: "A broad sense of the people, routines, and setting around that period", score: 1, dimension: "recall", insight: "Semantic memory — you retained the surrounding context and patterns rather than preserving a specific moment." }
+        ]
+      },
+      {
+        section: "Storage / Meaning + Self",
+        question: "You remember a childhood moment when you got in trouble. What remains strongest?",
+        axis: "Emotional ↔ Less Emotional",
+        options: [
+          { text: "The feeling I had in my body, like embarrassment or fear", score: -1, dimension: "emotion", insight: "Bodily and emotionally immersed — physical sensation defines the memory; the events themselves are secondary to how it felt." },
+          { text: "What happened to me and why it mattered at the time", score: -0.4, dimension: "emotion", insight: "Personally meaningful — what happened to you is the emotional center; the memory is held together by personal significance." },
+          { text: "What the situation taught me about expectations or behavior", score: 0.4, dimension: "emotion", insight: "Reflective encoding — you extracted a rule or lesson from the experience, distancing from the raw emotional state." },
+          { text: "The setting, people involved, and the larger situation more than the emotion", score: 1, dimension: "emotion", insight: "Observational — the situational context is what endured; emotional residue faded while the scene remained structured." }
+        ]
+      },
+      {
+        section: "Retrieval / Reconstruction",
+        question: "When you remember walking into an important interview, critique, or meeting, how does the scene appear in your mind?",
+        axis: "First-person ↔ Third-person",
+        options: [
+          { text: "I am looking out through my own eyes", score: -1, dimension: "perspective", insight: "First-person, fully immersed — you relive the moment from within your own perspective, with no observer distance." },
+          { text: "Mostly through my eyes, but I can also imagine how I looked", score: -0.35, dimension: "perspective", insight: "Mostly first-person — you are present in the memory but carry a slight layer of self-observation alongside it." },
+          { text: "I see parts of the room and myself in the situation", score: 0.35, dimension: "perspective", insight: "Mixed perspective — your retrieval begins to step outside your own viewpoint, blending immersion with observation." },
+          { text: "I see myself from the outside, almost like watching the scene", score: 1, dimension: "perspective", insight: "Third-person retrieval — you observe yourself as a character in the memory rather than reliving it from within." }
+        ]
+      },
+      {
+        section: "Retrieval / Reconstruction",
+        question: "When telling someone about a memorable day, what do you naturally include first?",
+        axis: "Visual ↔ Language / Auditory",
+        options: [
+          { text: "What I saw: colors, faces, objects, or visual details", score: -1, dimension: "representation", insight: "Visual-dominant recall — images and sensory impressions lead your retelling; you think in pictures before words." },
+          { text: "A few visual details that help set the scene", score: -0.45, dimension: "representation", insight: "Visually anchored — a few key images frame the narrative without overwhelming it; moderately sensory." },
+          { text: "What was said and how the conversation unfolded", score: 0.4, dimension: "representation", insight: "Language-based retrieval — dialogue and conversational sequence structure the memory more than visual impressions." },
+          { text: "The situation, tone, and meaning behind what happened", score: 1, dimension: "representation", insight: "Conceptual retelling — meaning and tone guide the story over any specific sensory detail; abstract over image." }
+        ]
+      },
+      {
+        section: "Retrieval / Reconstruction",
+        question: "A memory from years ago comes back suddenly. What does it feel like?",
+        axis: "Vividness ↔ Conceptual Clarity",
+        options: [
+          { text: "Vivid, detailed, and almost physically present", score: -1, dimension: "representation", insight: "Highly vivid recall — the memory returns with full sensory presence and emotional immediacy, as if re-experienced." },
+          { text: "Clear in a few parts, but incomplete around the edges", score: -0.4, dimension: "representation", insight: "Partially vivid — core details are clear while surrounding context fades; selective rather than full reconstruction." },
+          { text: "Not very detailed, but I understand what the moment meant", score: 0.5, dimension: "representation", insight: "Conceptual clarity — understanding of the moment survives where sensory detail does not; meaning over imagery." },
+          { text: "More like a simplified outline than a full image", score: 1, dimension: "representation", insight: "Compressed recall — the memory exists as a simplified schema rather than a lived scene; efficient but thin." }
+        ]
+      },
+      {
+        section: "Reconstruction",
+        question: "You are trying to remember a conversation, but one part is missing. What do you usually do without thinking?",
+        axis: "Reconstruction ↔ Reduction",
+        options: [
+          { text: "I fill in the missing part based on what probably happened", score: -0.8, dimension: "representation", insight: "Active reconstruction — you instinctively complete the memory using inference; the gap is filled without flagging the seam." },
+          { text: "I make a likely guess, but I know it may not be exact", score: -0.25, dimension: "representation", insight: "Mild reconstruction — you estimate the gap with self-awareness; you reconstruct but remain conscious of the uncertainty." },
+          { text: "I leave the missing part unclear when I retell it", score: 0.4, dimension: "representation", insight: "Reduction — you preserve the gap rather than filling it, accepting incompleteness over invention." },
+          { text: "I focus on the overall situation instead of reconstructing the exact detail", score: 0.9, dimension: "representation", insight: "Gist-based — you reframe around the overall meaning rather than recovering the missing part; the whole over the detail." }
+        ]
+      },
+      {
+        section: "Reconstruction",
+        question: "When retelling a memory to someone else, what makes the story feel right to you?",
+        axis: "Narrative Expansion ↔ Compression",
+        options: [
+          { text: "Making the moment feel vivid and alive", score: -0.8, dimension: "representation", insight: "Narrative expansion — you prioritize re-creating the texture and presence of the moment for your listener." },
+          { text: "Including enough detail so the listener can picture it", score: -0.35, dimension: "representation", insight: "Moderate expansion — you offer enough sensory grounding to be pictured without over-elaborating." },
+          { text: "Keeping the sequence and situation understandable", score: 0.35, dimension: "representation", insight: "Narrative compression — structure and sequence take priority over sensory richness; clarity over immersion." },
+          { text: "Keeping the meaning accurate, even if the details stay simple", score: 0.8, dimension: "representation", insight: "Semantic compression — the meaning matters more than the detail; you distill the memory to its essential point." }
+        ]
+      }
+    ];
+
+    const optionLetters = ["A", "B", "C", "D"];
+    let answers = [];
+
+    const introScreen = document.getElementById("introScreen");
+    const quizScreen = document.getElementById("quizScreen");
+    const resultScreen = document.getElementById("resultScreen");
+    const progressBar = document.getElementById("progressBar");
+    const allQuestions = document.getElementById("allQuestions");
+    const submitButton = document.getElementById("submitButton");
+    const continuumDot = document.getElementById("continuumDot");
+    const continuumFill = document.getElementById("continuumFill");
+    const resultText = document.getElementById("resultText");
+    const summaryGrid = document.getElementById("summaryGrid");
+
+    function clamp(value, min, max) {
+      return Math.min(Math.max(value, min), max);
+    }
+
+    function showScreen(screen) {
+      introScreen.style.display = "none";
+      quizScreen.style.display = "none";
+      resultScreen.style.display = "none";
+      screen.style.display = "flex";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function startQuiz() {
+      answers = new Array(questions.length).fill(null);
+      renderAllQuestions();
+      showScreen(quizScreen);
+    }
+
+    function showIntro() {
+      showScreen(introScreen);
+    }
+
+    function shuffleArray(array) {
+      const copy = [...array];
+
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+
+      return copy;
+    }
+
+    function renderAllQuestions() {
+      allQuestions.innerHTML = "";
+
+      questions.forEach((q, questionIndex) => {
+        const block = document.createElement("section");
+        block.className = "question-block";
+
+        const info = document.createElement("aside");
+        info.className = "question-info";
+        info.innerHTML = `
+          <span>${String(questionIndex + 1).padStart(2, "0")} / ${String(questions.length).padStart(2, "0")}</span>
+          <span>${q.section}</span>
+        `;
+
+        const content = document.createElement("div");
+        const question = document.createElement("h2");
+        question.className = "question-text-all";
+        question.textContent = q.question;
+
+        const optionList = document.createElement("div");
+        optionList.className = "choices";
+
+        const shuffledOptions = shuffleArray(q.options.map((option, originalIndex) => ({
+          ...option,
+          originalIndex
+        })));
+
+        shuffledOptions.forEach((option, displayIndex) => {
+          const button = document.createElement("button");
+          button.className = "choice";
+          button.type = "button";
+          button.textContent = `${optionLetters[displayIndex]}. ${option.text}`;
+
+          button.addEventListener("click", () => {
+            selectAnswer(questionIndex, option, displayIndex, button, optionList);
+          });
+
+          optionList.appendChild(button);
+        });
+
+        content.appendChild(question);
+        content.appendChild(optionList);
+        block.appendChild(info);
+        block.appendChild(content);
+        allQuestions.appendChild(block);
+      });
+
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const answeredCount = answers.filter(Boolean).length;
+      progressBar.style.width = `${(answeredCount / questions.length) * 100}%`;
+      submitButton.disabled = answeredCount !== questions.length;
+    }
+
+    function selectAnswer(questionIndex, selectedOption, displayIndex, button, optionList) {
+      const q = questions[questionIndex];
+
+      answers[questionIndex] = {
+        axis: q.axis,
+        choice: optionLetters[displayIndex],
+        text: selectedOption.text,
+        insight: selectedOption.insight,
+        score: selectedOption.score,
+        dimension: selectedOption.dimension
+      };
+
+      optionList.querySelectorAll(".choice").forEach(choice => {
+        choice.classList.remove("selected");
+      });
+
+      button.classList.add("selected");
+      updateProgress();
+    }
+
+    function submitQuiz() {
+      if (answers.filter(Boolean).length !== questions.length) {
+        alert("Please answer all questions first.");
+        return;
+      }
+
+      showResult();
+    }
+
+    function showResult() {
+      progressBar.style.width = "100%";
+      showScreen(resultScreen);
+
+      const overallScore = answers.reduce((sum, a) => sum + a.score, 0) / answers.length;
+
+      const dimGroups = {};
+      answers.forEach(a => {
+        if (!dimGroups[a.dimension]) dimGroups[a.dimension] = [];
+        dimGroups[a.dimension].push(a.score);
+      });
+
+      const dimScores = {};
+      for (const [dim, scores] of Object.entries(dimGroups)) {
+        dimScores[dim] = scores.reduce((s, v) => s + v, 0) / scores.length;
+      }
+
+      const percentage = clamp(((overallScore + 1) / 2) * 100, 3, 97);
+      continuumDot.style.left = `${percentage}%`;
+      continuumFill.style.width = `${percentage}%`;
+
+      resultText.textContent = createResultText(overallScore, dimScores);
+      createSummary();
+    }
+
+    function createResultText(overallScore, dimScores) {
+      const dimLabels = {
+        attention: "attentional focus",
+        self: "self vs social orientation",
+        recall: "memory specificity",
+        emotion: "emotional encoding",
+        perspective: "retrieval perspective",
+        representation: "representational style"
+      };
+
+      let profile;
+      if (overallScore < -0.3) {
+        profile = "leans toward a Western-individualist pattern — prioritizing focal detail, personal emotion, and vivid episodic scenes";
+      } else if (overallScore > 0.3) {
+        profile = "leans toward an Eastern-contextual pattern — prioritizing relational context, group dynamics, and structural clarity";
+      } else {
+        profile = "sits between the two patterns, combining focal and contextual tendencies without a strong pull toward either";
+      }
+
+      const dimEntries = Object.entries(dimScores);
+      const mostWestern = dimEntries.reduce((a, b) => a[1] < b[1] ? a : b);
+      const mostEastern = dimEntries.reduce((a, b) => a[1] > b[1] ? a : b);
+
+      return `Your memory style ${profile}. The strongest Western signal appears in ${dimLabels[mostWestern[0]]}, while ${dimLabels[mostEastern[0]]} leans most Eastern.`;
+    }
+
+    function createSummary() {
+      summaryGrid.innerHTML = "";
+
+      answers.forEach((a) => {
+        const pct = clamp(((a.score + 1) / 2) * 100, 3, 97);
+        const item = document.createElement("div");
+        item.className = "summary-item";
+        item.innerHTML = `
+          <span class="summary-axis">${a.axis}</span>
+          <div class="summary-content">
+            <span class="summary-answer">${a.text}</span>
+            <div class="summary-track">
+              <div class="summary-fill" style="width: ${pct}%"></div>
+              <div class="summary-dot" style="left: ${pct}%"></div>
+            </div>
+            <span class="summary-insight">${a.insight}</span>
+          </div>
+        `;
+        summaryGrid.appendChild(item);
+      });
+    }
+
+    function restartQuiz() {
+      answers = new Array(questions.length).fill(null);
+      renderAllQuestions();
+      showScreen(quizScreen);
+    }
+
+    function runTests() {
+      console.assert(Array.isArray(questions), "questions should be an array.");
+      console.assert(questions.length === 10, "there should be 10 questions.");
+      console.assert(questions.every(q => q.options.length === 4), "each question should have 4 options.");
+
+      const sample = questions[0].options.map((option, originalIndex) => ({ ...option, originalIndex }));
+      const shuffled = shuffleArray(sample);
+      console.assert(shuffled.length === sample.length, "shuffle should preserve number of options.");
+      console.assert(shuffled.every(option => typeof option.originalIndex === "number"), "shuffle should preserve originalIndex.");
+
+      const fakeButton = document.createElement("button");
+      const fakeOptionList = document.createElement("div");
+      fakeButton.className = "choice";
+      fakeOptionList.appendChild(fakeButton);
+
+      answers = new Array(questions.length).fill(null);
+      selectAnswer(0, questions[0].options[0], 2, fakeButton, fakeOptionList);
+      console.assert(answers[0].choice === "C", "selected answer should save the displayed letter.");
+      console.assert(typeof answers[0].score === "number", "selected answer should save score.");
+      console.assert(typeof answers[0].dimension === "string", "selected answer should save dimension.");
+      answers = [];
+    }
+
+    runTests();
+  </script>
+</body>
+</html>

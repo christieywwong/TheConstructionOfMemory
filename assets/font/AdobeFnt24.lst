@@ -1,0 +1,123 @@
+%!Adobe-FontList 1.24
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:/Users/tomgriffiths/Desktop/Christie-test Folder/Document fonts/AdobeFnt24.lst
+FileLength:2723
+FileModTime:794200375
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:NeueHaasUnicaPro-Bold
+FamilyName:Neue Haas Unica Pro
+StyleName:Bold
+MenuName:Neue Haas Unica Pro
+StyleBits:2
+WeightClass:700
+WidthClass:5
+AngleClass:0
+FullName:Neue Haas Unica Pro Bold
+WritingScript:Roman
+OutlineFileName:/Users/tomgriffiths/Desktop/Christie-test Folder/Document fonts/NeueHaasUnicaPro-Bold.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:107956
+FileModTime:794160186
+NameArray:0,Mac,4,Neue Haas Unica Pro Bold
+NameArray:0,Win,1,Neue Haas Unica Pro
+NameArray:0,Win,16,Neue Haas Unica Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:NeueHaasUnicaPro-BoldItalic
+FamilyName:Neue Haas Unica Pro
+StyleName:Bold Italic
+MenuName:Neue Haas Unica Pro
+StyleBits:3
+WeightClass:700
+WidthClass:5
+AngleClass:1
+FullName:Neue Haas Unica Pro Bold Italic
+WritingScript:Roman
+OutlineFileName:/Users/tomgriffiths/Desktop/Christie-test Folder/Document fonts/NeueHaasUnicaPro-BoldItalic.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:110652
+FileModTime:794160186
+NameArray:0,Mac,4,Neue Haas Unica Pro Bold Italic
+NameArray:0,Win,1,Neue Haas Unica Pro
+NameArray:0,Win,16,Neue Haas Unica Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:NeueHaasUnicaPro-Italic
+FamilyName:Neue Haas Unica Pro
+StyleName:Italic
+MenuName:Neue Haas Unica Pro
+StyleBits:1
+WeightClass:400
+WidthClass:5
+AngleClass:1
+FullName:Neue Haas Unica Pro Italic
+WritingScript:Roman
+OutlineFileName:/Users/tomgriffiths/Desktop/Christie-test Folder/Document fonts/NeueHaasUnicaPro-Italic.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:109632
+FileModTime:794160186
+NameArray:0,Mac,4,Neue Haas Unica Pro Italic
+NameArray:0,Win,1,Neue Haas Unica Pro
+NameArray:0,Win,16,Neue Haas Unica Pro
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Type1
+FontName:NeueHaasUnicaPro-Regular
+FamilyName:Neue Haas Unica Pro
+StyleName:Regular
+MenuName:Neue Haas Unica Pro
+StyleBits:0
+WeightClass:400
+WidthClass:5
+AngleClass:0
+FullName:Neue Haas Unica Pro
+WritingScript:Roman
+OutlineFileName:/Users/tomgriffiths/Desktop/Christie-test Folder/Document fonts/NeueHaasUnicaPro-Regular.otf
+DataFormat:sfntData
+UsesStandardEncoding:yes
+isCFF:yes
+hasSVG:no
+hasSBIX:no
+hasCOLR:no
+VariableFontType:NonVariableFont
+FileLength:106212
+FileModTime:794160186
+NameArray:0,Mac,4,Neue Haas Unica Pro
+NameArray:0,Win,1,Neue Haas Unica Pro
+NameArray:0,Win,16,Neue Haas Unica Pro
+%EndFont
+
