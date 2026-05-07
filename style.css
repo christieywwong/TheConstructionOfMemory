@@ -75,7 +75,7 @@ body {
 }
 
 .intro-bottom {
-  margin-top: 20px;
+  margin-top: 40px;
   opacity: 0;
   transition: opacity 1s ease;
   pointer-events: none;
@@ -390,7 +390,7 @@ body {
 }
 
 .summary-axis {
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #999;

@@ -11,13 +11,6 @@
 <body>
   <main>
     <section class="screen intro-screen" id="introScreen">
-      <div class="vellum-bg" aria-hidden="true">
-        <div class="vellum-layer v1"></div>
-        <div class="vellum-layer v2"></div>
-        <div class="vellum-layer v3"></div>
-        <div class="vellum-layer v4"></div>
-        <div class="vellum-layer v5"></div>
-      </div>
 
       <h1 id="animatedTitle">THE CONSTRUCTION OF MEMORY</h1>
 
@@ -94,17 +87,29 @@
 
     const letters = [...document.querySelectorAll(".title-letter")];
 
-    // All letters visible from the start
-    letters.forEach(l => { l.style.opacity = "1"; });
+    // Set all letters to invisible initially
+    letters.forEach(l => { l.style.opacity = "0"; });
 
-    // Show start button after 1.5s
+    // Animate the first 5 letters
+    for (let i = 0; i < Math.min(5, letters.length); i++) {
+      setTimeout(() => {
+        letters[i].style.opacity = "1";
+      }, i * 200);
+    }
+
+    // Show all letters after animation
+    setTimeout(() => {
+      letters.forEach(l => l.style.opacity = "1");
+    }, 1000);
+
+    // Show start button after animation
     setTimeout(() => {
       startWrap.classList.add("visible");
     }, 1500);
 
     // Sync state: freeze new fades for 2.5s after each all-visible moment
     let syncFrozen = true;
-    setTimeout(() => { syncFrozen = false; }, 1500);
+    setTimeout(() => { syncFrozen = false; }, 2500);
 
     function syncAllVisible() {
       syncFrozen = true;
@@ -131,10 +136,10 @@
       }, delay);
     }
 
-    // Begin fading after the first 1.5s freeze
+    // Begin fading after the initial animation
     setTimeout(() => {
       letters.forEach(letter => scheduleFade(letter));
-    }, 1500);
+    }, 2500);
 
     const questions = [
       {
