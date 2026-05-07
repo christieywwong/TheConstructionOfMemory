@@ -195,7 +195,8 @@ body {
   align-items: center;
 }
 
-.quiz-back {
+.quiz-back,
+.info-back {
   border: 1px solid rgba(0, 0, 0, 0.18);
   background: transparent;
   padding: 4px 10px;
@@ -207,9 +208,16 @@ body {
   color: #1f1f1f;
 }
 
-.quiz-back:hover {
+.quiz-back:hover,
+.info-back:hover {
   background: rgba(255, 255, 255, 0.75);
   transform: translateY(-2px);
+}
+
+.info-back {
+  position: absolute;
+  top: 24px;
+  left: 24px;
 }
 
 .progress {
