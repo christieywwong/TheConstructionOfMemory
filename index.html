@@ -80,8 +80,13 @@
 
     [...originalText].forEach((char) => {
       const span = document.createElement("span");
-      span.textContent = char;
-      span.classList.add("title-letter");
+      if (char === " ") {
+        span.classList.add("title-space");
+        span.textContent = "\u00A0";
+      } else {
+        span.classList.add("title-letter");
+        span.textContent = char;
+      }
       title.appendChild(span);
     });
 

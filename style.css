@@ -68,8 +68,14 @@ body {
   text-align: center;
   text-transform: uppercase;
   max-width: 1100px;
-  word-break: break-word;
-  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: normal;
+}
+
+.title-space {
+  display: inline-block;
+  width: 0.35em;
 }
 
 .intro-text {
@@ -561,9 +567,10 @@ body {
   }
 
   #animatedTitle {
-    font-size: clamp(2rem, 8vw, 3rem);
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    font-size: clamp(1.4rem, 8vw, 3rem);
+    white-space: nowrap;
+    word-break: normal;
+    overflow-wrap: normal;
   }
 
   .question-block,
