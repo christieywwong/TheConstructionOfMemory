@@ -55,27 +55,43 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding-top: 15vh;
+  padding-bottom: 8vh;
 }
 
 #animatedTitle {
   font-family: 'NeueHaas', Arial, Helvetica, sans-serif;
-  font-size: 50px;
-  line-height: 0.92;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 0.95;
   /* letter-spacing: -0.05em; */
   font-weight: 700;
   text-align: center;
   text-transform: uppercase;
   max-width: 1100px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.intro-text {
+  font-family: 'NeueHaas', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  text-align: center;
+  width: min(45%, 90vw);
+  max-width: 45%;
+  margin: 40px auto 0;
+  color: #1f1f1f;
 }
 
 .title-letter {
   display: inline-block;
-  opacity: 1;
-  transition: opacity 1.4s ease;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
 .intro-bottom {
-  margin-top: 40px;
+  margin-top: 60px;
   opacity: 0;
   transition: opacity 1s ease;
   pointer-events: none;
@@ -542,6 +558,12 @@ body {
 @media (max-width: 900px) {
   .screen {
     padding: 28px 20px;
+  }
+
+  #animatedTitle {
+    font-size: clamp(2rem, 8vw, 3rem);
+    word-break: break-word;
+    overflow-wrap: anywhere;
   }
 
   .question-block,
