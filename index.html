@@ -15,7 +15,19 @@
       <h1 id="animatedTitle">THE CONSTRUCTION OF MEMORY</h1>
 
       <div class="intro-bottom" id="startWrap">
-        <button class="start-button" type="button" onclick="startQuiz()">Start</button>
+        <button class="start-button" type="button" onclick="showInfo()">Start</button>
+      </div>
+    </section>
+
+    <section class="screen info-screen" id="infoScreen">
+      <div class="info-copy">
+        <h2>What is this quiz for?</h2>
+        <p>This quiz is designed to help you explore how your memory tends to work — whether it is more focused on individual detail, emotional experience, and vivid scenes, or more about relationships, context, and structure.</p>
+        <p>By answering a few quick questions, you'll get a clearer sense of your memory orientation and how culture, attention, and personal meaning shape what you remember.</p>
+        <div class="info-actions">
+          <button class="start-button" type="button" onclick="startQuiz()">Begin Quiz</button>
+          <button class="back-button" type="button" onclick="showIntro()">Back</button>
+        </div>
       </div>
     </section>
 
@@ -266,6 +278,7 @@
     let answers = [];
 
     const introScreen = document.getElementById("introScreen");
+    const infoScreen = document.getElementById("infoScreen");
     const quizScreen = document.getElementById("quizScreen");
     const resultScreen = document.getElementById("resultScreen");
     const progressBar = document.getElementById("progressBar");
@@ -282,10 +295,15 @@
 
     function showScreen(screen) {
       introScreen.style.display = "none";
+      infoScreen.style.display = "none";
       quizScreen.style.display = "none";
       resultScreen.style.display = "none";
       screen.style.display = "flex";
       window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showInfo() {
+      showScreen(infoScreen);
     }
 
     function startQuiz() {
@@ -455,7 +473,7 @@
         item.innerHTML = `
           <span class="summary-axis">${a.axis}</span>
           <div class="summary-content">
-            <span class="summary-answer">${a.text}</span>
+            <span class="summary-answer">Your choice: ${a.text}</span>
             <div class="summary-track">
               <div class="summary-fill" style="width: ${pct}%"></div>
               <div class="summary-dot" style="left: ${pct}%"></div>

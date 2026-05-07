@@ -34,14 +34,57 @@ body {
 
 .intro-screen,
 .quiz-screen,
+.info-screen,
 .result-screen {
   max-width: 1180px;
   margin: 0 auto;
 }
 
 .quiz-screen,
+.info-screen,
 .result-screen {
   display: none;
+}
+
+/* ==============================
+   INFO SCREEN
+   ============================== */
+
+.info-screen {
+  position: relative;
+  max-width: none;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 15vh;
+  padding-bottom: 8vh;
+}
+
+.info-copy {
+  width: min(90vw, 760px);
+  margin: 0 auto;
+}
+
+.info-copy h2 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+
+.info-copy p {
+  font-size: 18px;
+  line-height: 1.8;
+  margin: 14px auto;
+  max-width: 40rem;
+}
+
+.info-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
 }
 
 /* ==============================
