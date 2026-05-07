@@ -377,7 +377,7 @@ body {
 .continuum-labels {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #1f1f1f;
@@ -434,7 +434,7 @@ body {
 .continuum-key {
   display: flex;
   justify-content: space-between;
-  font-size: 10px;
+  font-size: 18px;
   letter-spacing: 0.03em;
   color: #999;
   font-family: 'NeueHaas', Arial, Helvetica, sans-serif;
@@ -469,7 +469,7 @@ body {
 }
 
 .summary-axis {
-  font-size: 12px;
+  font-size: 18px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #999;
@@ -483,7 +483,7 @@ body {
 }
 
 .summary-answer {
-  font-size: 13px;
+  font-size: 18px;
   color: #1f1f1f;
   line-height: 1.4;
 }
@@ -517,7 +517,7 @@ body {
 }
 
 .summary-insight {
-  font-size: 12px;
+  font-size: 18px;
   color: #999;
   line-height: 1.5;
   margin-top: 10px;
@@ -644,9 +644,8 @@ body {
     grid-template-columns: 1fr;
   }
 
-  .summary-axis,
   .summary-answer,
   .summary-insight {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
