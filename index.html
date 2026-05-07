@@ -12,7 +12,7 @@
   <main>
     <section class="screen intro-screen" id="introScreen">
 
-      <h1 id="animatedTitle">HE CONSTRUCTION OF MEMORY</h1>
+      <h1 id="animatedTitle">THE CONSTRUCTION OF MEMORY</h1>
 
       <div class="intro-bottom" id="startWrap">
         <button class="start-button" type="button" onclick="showInfo()">Start</button>
@@ -92,16 +92,25 @@
     const originalText = title.textContent;
     title.innerHTML = "";
 
-    [...originalText].forEach((char) => {
-      const span = document.createElement("span");
-      if (char === " ") {
-        span.classList.add("title-space");
-        span.textContent = "\u00A0";
-      } else {
+    originalText.split(" ").forEach((word, wordIndex, wordsArr) => {
+      const wordSpan = document.createElement("span");
+      wordSpan.classList.add("title-word");
+
+      [...word].forEach((char) => {
+        const span = document.createElement("span");
         span.classList.add("title-letter");
         span.textContent = char;
+        wordSpan.appendChild(span);
+      });
+
+      title.appendChild(wordSpan);
+
+      if (wordIndex < wordsArr.length - 1) {
+        const space = document.createElement("span");
+        space.classList.add("title-space");
+        space.textContent = "\u00A0";
+        title.appendChild(space);
       }
-      title.appendChild(span);
     });
 
     const letters = [...document.querySelectorAll(".title-letter")];

@@ -133,6 +133,11 @@ body {
   color: #1f1f1f;
 }
 
+.title-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .title-letter {
   display: inline-block;
   opacity: 0;
@@ -619,7 +624,7 @@ body {
 
   #animatedTitle {
     font-size: clamp(1.4rem, 8vw, 3rem);
-    white-space: nowrap;
+    white-space: normal;
     word-break: normal;
     overflow-wrap: normal;
   }
@@ -636,5 +641,11 @@ body {
 
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .summary-axis,
+  .summary-answer,
+  .summary-insight {
+    font-size: 14px;
   }
 }
